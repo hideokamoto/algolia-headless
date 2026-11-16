@@ -93,6 +93,7 @@ class Algolia_Headless_CLI {
 	 *
 	 *     wp algolia-headless set-domain https://example.com
 	 *
+	 * @subcommand set-domain
 	 * @when after_wp_load
 	 */
 	public function set_domain( $args ) {
@@ -260,6 +261,7 @@ class Algolia_Headless_CLI {
 	 *
 	 *     wp algolia-headless clear-logs
 	 *
+	 * @subcommand clear-logs
 	 * @when after_wp_load
 	 */
 	public function clear_logs() {

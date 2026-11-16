@@ -100,6 +100,7 @@ Not released yet.
 * Fix: Only the host part of a URL is replaced, not the same text in its path or query string
 * Fix: A domain changed during the same request (e.g. WP-CLI before re-indexing) is used right away
 * Fix: `wp algolia-headless logs` now honours --lines and --level
+* Fix: `wp algolia-headless set-domain` and `clear-logs` now exist under the documented names (they were registered as `set_domain` / `clear_logs`)
 * Change: The text domain is now `search-with-algolia-headless-extention` (the WordPress.org slug) so translations from translate.wordpress.org can load
 * Change: Requires PHP 7.4 (the minimum of current WordPress). Tested up to WordPress 7.1
 * Dev: PHPUnit tests on wp-env, run on CircleCI
