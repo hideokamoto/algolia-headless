@@ -4,7 +4,7 @@
   "author": "hideokamoto",
   "scripts": {
     "readme": "node scripts/readme-to-markdown.js",
-    "i18n:make-pot": "wp i18n make-pot . languages/algolia-headless.pot --domain=algolia-headless --exclude=node_modules,vendor,.git",
+    "i18n:make-pot": "wp i18n make-pot . languages/search-with-algolia-headless-extention.pot --domain=search-with-algolia-headless-extention --slug=search-with-algolia-headless-extention --exclude=node_modules,vendor,.git",
     "i18n": "npm run i18n:make-pot",
     "build": "npm run readme && npm run i18n"
   },

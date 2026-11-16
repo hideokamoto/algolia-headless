@@ -5,7 +5,7 @@
  * Description:     Simply extension for WP Search with Algolia. Replace the indices domain from the WordPress to custom domain.
  * Author:          Hidetaka Okamoto
  * Author URI:      https://wp-kyoto.net/en
- * Text Domain:     algolia-headless
+ * Text Domain:     search-with-algolia-headless-extention
  * Domain Path:     /languages
  * Version:         0.2.0
  *
@@ -268,7 +268,7 @@ class Algolia_Headless_Settings {
 				var wpUrl = '" . esc_js( $wp_url ) . "';
 
 				if (!headlessDomain) {
-					previewContainer.html('<em style=\"color:#666;\">" . esc_js( __( 'Enter a domain to see preview', 'algolia-headless' ) ) . "</em>');
+					previewContainer.html('<em style=\"color:#666;\">" . esc_js( __( 'Enter a domain to see preview', 'search-with-algolia-headless-extention' ) ) . "</em>');
 					return;
 				}
 
@@ -278,7 +278,7 @@ class Algolia_Headless_Settings {
 				try {
 					headlessParsed = new URL(headlessDomain);
 				} catch(e) {
-					previewContainer.html('<span style=\"color:#d63638;\">" . esc_js( __( 'Invalid URL format', 'algolia-headless' ) ) . "</span>');
+					previewContainer.html('<span style=\"color:#d63638;\">" . esc_js( __( 'Invalid URL format', 'search-with-algolia-headless-extention' ) ) . "</span>');
 					return;
 				}
 
@@ -288,9 +288,9 @@ class Algolia_Headless_Settings {
 
 				previewContainer.html(
 					'<div style=\"background:#f0f0f1;padding:12px;border-left:4px solid #2271b1;\">' +
-					'<strong>" . esc_js( __( 'URL Preview:', 'algolia-headless' ) ) . "</strong><br>' +
-					'<span style=\"color:#666;\">" . esc_js( __( 'Before:', 'algolia-headless' ) ) . "</span> <code>' + beforeUrl + '</code><br>' +
-					'<span style=\"color:#666;\">" . esc_js( __( 'After:', 'algolia-headless' ) ) . "</span> <code style=\"color:#2271b1;\">' + afterUrl + '</code>' +
+					'<strong>" . esc_js( __( 'URL Preview:', 'search-with-algolia-headless-extention' ) ) . "</strong><br>' +
+					'<span style=\"color:#666;\">" . esc_js( __( 'Before:', 'search-with-algolia-headless-extention' ) ) . "</span> <code>' + beforeUrl + '</code><br>' +
+					'<span style=\"color:#666;\">" . esc_js( __( 'After:', 'search-with-algolia-headless-extention' ) ) . "</span> <code style=\"color:#2271b1;\">' + afterUrl + '</code>' +
 					'</div>'
 				);
 			}
@@ -341,13 +341,13 @@ class Algolia_Headless_Settings {
 	public function init_options() {
 		add_settings_section(
 			'algolia_headless_settings',
-			__( 'Algolia Headless extension', 'algolia-headless' ),
+			__( 'Algolia Headless extension', 'search-with-algolia-headless-extention' ),
 			array( $this, 'algolia_setting_description' ),
 			'reading'
 		);
 		add_settings_field(
 			'algolia_headless_domain',
-			__( 'Public site domain', 'algolia-headless' ),
+			__( 'Public site domain', 'search-with-algolia-headless-extention' ),
 			array( $this, 'algolia_public_site_domain' ),
 			'reading',
 			'algolia_headless_settings'
@@ -358,7 +358,7 @@ class Algolia_Headless_Settings {
 	 * Display settings section description
 	 */
 	public function algolia_setting_description() {
-		esc_html_e( 'You can replace the post domain from the WordPress to your public site.', 'algolia-headless' );
+		esc_html_e( 'You can replace the post domain from the WordPress to your public site.', 'search-with-algolia-headless-extention' );
 	}
 
 	/**
@@ -376,7 +376,7 @@ class Algolia_Headless_Settings {
 			placeholder="https://example.com"
 		/>
 		<p class="description">
-			<?php esc_html_e( 'Enter the full URL of your headless site (e.g., https://example.com)', 'algolia-headless' ); ?>
+			<?php esc_html_e( 'Enter the full URL of your headless site (e.g., https://example.com)', 'search-with-algolia-headless-extention' ); ?>
 		</p>
 		<?php
 	}
@@ -472,7 +472,7 @@ class Algolia_Headless_Admin_Notices {
 		// Check if Algolia plugin is active.
 		if ( ! Algolia_Headless_Helper::is_algolia_plugin_active() ) {
 			$this->show_notice(
-				__( 'Algolia Headless extension requires the <strong>WP Search with Algolia</strong> plugin to be installed and activated.', 'algolia-headless' ),
+				__( 'Algolia Headless extension requires the <strong>WP Search with Algolia</strong> plugin to be installed and activated.', 'search-with-algolia-headless-extention' ),
 				'warning',
 				'algolia-plugin-missing'
 			);
@@ -489,7 +489,7 @@ class Algolia_Headless_Admin_Notices {
 				$this->show_notice(
 					sprintf(
 						/* translators: %s: Settings page URL */
-						__( 'Algolia Headless domain is not configured. Please <a href="%s">configure it in Settings &raquo; Reading</a>.', 'algolia-headless' ),
+						__( 'Algolia Headless domain is not configured. Please <a href="%s">configure it in Settings &raquo; Reading</a>.', 'search-with-algolia-headless-extention' ),
 						esc_url( $settings_url )
 					),
 					'info',
@@ -505,7 +505,7 @@ class Algolia_Headless_Admin_Notices {
 				$this->show_notice(
 					sprintf(
 						/* translators: %s: Invalid domain URL */
-						__( 'Invalid headless domain format: <code>%s</code>. Please use a full URL (e.g., https://example.com).', 'algolia-headless' ),
+						__( 'Invalid headless domain format: <code>%s</code>. Please use a full URL (e.g., https://example.com).', 'search-with-algolia-headless-extention' ),
 						esc_html( $headless_domain )
 					),
 					'error',
@@ -514,7 +514,7 @@ class Algolia_Headless_Admin_Notices {
 			} elseif ( isset( $parsed['scheme'] ) && 'http' === $parsed['scheme'] ) {
 				// Warn about HTTP (not HTTPS).
 				$this->show_notice(
-					__( 'Your headless domain uses HTTP instead of HTTPS. Consider using HTTPS for better security.', 'algolia-headless' ),
+					__( 'Your headless domain uses HTTP instead of HTTPS. Consider using HTTPS for better security.', 'search-with-algolia-headless-extention' ),
 					'warning',
 					'algolia-http-warning',
 					true
@@ -574,7 +574,7 @@ class Algolia_Headless_Site_Health {
 	 */
 	public function add_tests( $tests ) {
 		$tests['direct']['algolia_headless_plugin'] = array(
-			'label' => __( 'Algolia Headless Configuration', 'algolia-headless' ),
+			'label' => __( 'Algolia Headless Configuration', 'search-with-algolia-headless-extention' ),
 			'test'  => array( $this, 'test_configuration' ),
 		);
 
@@ -588,10 +588,10 @@ class Algolia_Headless_Site_Health {
 	 */
 	public function test_configuration() {
 		$result = array(
-			'label'       => __( 'Algolia Headless is configured correctly', 'algolia-headless' ),
+			'label'       => __( 'Algolia Headless is configured correctly', 'search-with-algolia-headless-extention' ),
 			'status'      => 'good',
 			'badge'       => array(
-				'label' => __( 'Performance', 'algolia-headless' ),
+				'label' => __( 'Performance', 'search-with-algolia-headless-extention' ),
 				'color' => 'blue',
 			),
 			'description' => '',
@@ -602,10 +602,10 @@ class Algolia_Headless_Site_Health {
 		// Check if Algolia plugin is active.
 		if ( ! Algolia_Headless_Helper::is_algolia_plugin_active() ) {
 			$result['status']      = 'critical';
-			$result['label']       = __( 'WP Search with Algolia plugin is not active', 'algolia-headless' );
+			$result['label']       = __( 'WP Search with Algolia plugin is not active', 'search-with-algolia-headless-extention' );
 			$result['description'] = sprintf(
 				'<p>%s</p>',
-				__( 'Algolia Headless extension requires the WP Search with Algolia plugin to function.', 'algolia-headless' )
+				__( 'Algolia Headless extension requires the WP Search with Algolia plugin to function.', 'search-with-algolia-headless-extention' )
 			);
 			return $result;
 		}
@@ -614,15 +614,15 @@ class Algolia_Headless_Site_Health {
 		$headless_domain = Algolia_Headless_Helper::get_headless_domain();
 		if ( empty( $headless_domain ) ) {
 			$result['status']      = 'recommended';
-			$result['label']       = __( 'Headless domain is not configured', 'algolia-headless' );
+			$result['label']       = __( 'Headless domain is not configured', 'search-with-algolia-headless-extention' );
 			$result['description'] = sprintf(
 				'<p>%s</p>',
-				__( 'Please configure the headless site domain in Settings &raquo; Reading.', 'algolia-headless' )
+				__( 'Please configure the headless site domain in Settings &raquo; Reading.', 'search-with-algolia-headless-extention' )
 			);
 			$result['actions']     = sprintf(
 				'<a href="%s">%s</a>',
 				admin_url( 'options-reading.php#algolia_headless_domain' ),
-				__( 'Configure Domain', 'algolia-headless' )
+				__( 'Configure Domain', 'search-with-algolia-headless-extention' )
 			);
 			return $result;
 		}
@@ -631,12 +631,12 @@ class Algolia_Headless_Site_Health {
 		$parsed = wp_parse_url( $headless_domain );
 		if ( ! $parsed || ! isset( $parsed['host'] ) ) {
 			$result['status']      = 'critical';
-			$result['label']       = __( 'Invalid headless domain format', 'algolia-headless' );
+			$result['label']       = __( 'Invalid headless domain format', 'search-with-algolia-headless-extention' );
 			$result['description'] = sprintf(
 				'<p>%s</p>',
 				sprintf(
 					/* translators: %s: Invalid domain */
-					__( 'The configured domain <code>%s</code> is not a valid URL.', 'algolia-headless' ),
+					__( 'The configured domain <code>%s</code> is not a valid URL.', 'search-with-algolia-headless-extention' ),
 					esc_html( $headless_domain )
 				)
 			);
@@ -646,10 +646,10 @@ class Algolia_Headless_Site_Health {
 		// Check HTTPS.
 		if ( isset( $parsed['scheme'] ) && 'http' === $parsed['scheme'] ) {
 			$result['status']      = 'recommended';
-			$result['label']       = __( 'Headless domain uses HTTP instead of HTTPS', 'algolia-headless' );
+			$result['label']       = __( 'Headless domain uses HTTP instead of HTTPS', 'search-with-algolia-headless-extention' );
 			$result['description'] = sprintf(
 				'<p>%s</p>',
-				__( 'For better security, consider using HTTPS for your headless domain.', 'algolia-headless' )
+				__( 'For better security, consider using HTTPS for your headless domain.', 'search-with-algolia-headless-extention' )
 			);
 		}
 
@@ -659,7 +659,7 @@ class Algolia_Headless_Site_Health {
 				'<p>%s</p>',
 				sprintf(
 					/* translators: %s: Domain configured via constant */
-					__( 'Domain is configured via ALGOLIA_HEADLESS_DOMAIN constant: <code>%s</code>', 'algolia-headless' ),
+					__( 'Domain is configured via ALGOLIA_HEADLESS_DOMAIN constant: <code>%s</code>', 'search-with-algolia-headless-extention' ),
 					esc_html( ALGOLIA_HEADLESS_DOMAIN )
 				)
 			);
@@ -668,7 +668,7 @@ class Algolia_Headless_Site_Health {
 				'<p>%s</p>',
 				sprintf(
 					/* translators: %s: Configured domain */
-					__( 'Headless domain: <code>%s</code>', 'algolia-headless' ),
+					__( 'Headless domain: <code>%s</code>', 'search-with-algolia-headless-extention' ),
 					esc_html( $headless_domain )
 				)
 			);
