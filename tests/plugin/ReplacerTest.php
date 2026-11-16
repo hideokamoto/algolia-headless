@@ -124,6 +124,16 @@ class ReplacerTest extends WP_UnitTestCase {
 		);
 	}
 
+	public function test_host_after_userinfo_is_replaced_and_the_query_is_kept() {
+		update_option( 'algolia_headless_domain', 'https://headless.example.com' );
+
+		// "//example.org" also appears in the query; only the host of the authority must change.
+		$this->assertSame(
+			'http://user@headless.example.com/?next=//example.org/post',
+			$this->replace( 'http://user@example.org/?next=//example.org/post' )
+		);
+	}
+
 	public function test_helper_test_url_replacement_uses_the_saved_option() {
 		update_option( 'algolia_headless_domain', 'https://headless.example.com' );
 

@@ -175,15 +175,23 @@ class Algolia_Headless_Replacer {
 			$replace_target .= ':' . $parsed_url['port'];
 		}
 
-		// Replace only the authority part ("//host[:port]"), not other occurrences of the
-		// host in the path or query string. Plain string functions avoid ReDoS.
-		$authority = '//' . $replace_target;
-		$position  = strpos( $url, $authority );
-		if ( false === $position ) {
+		// Replace only "host[:port]" inside the authority ("//[userinfo@]host[:port]"), not other
+		// occurrences of the host in the path or query string. Plain string functions avoid ReDoS.
+		$authority_start = strpos( $url, '//' );
+		if ( false === $authority_start ) {
 			Algolia_Headless_Helper::log( "Host not found in URL: {$url}", 'error' );
 			return $url;
 		}
-		$result = substr_replace( $url, '//' . $replaced_domain, $position, strlen( $authority ) );
+		$authority_start += 2;
+		$authority_length = strcspn( $url, '/?#', $authority_start );
+		$authority        = substr( $url, $authority_start, $authority_length );
+		$at               = strrpos( $authority, '@' );
+		$host_offset      = ( false === $at ) ? 0 : $at + 1;
+		if ( 0 !== strcasecmp( substr( $authority, $host_offset ), $replace_target ) ) {
+			Algolia_Headless_Helper::log( "Host not found in URL: {$url}", 'error' );
+			return $url;
+		}
+		$result = substr_replace( $url, $replaced_domain, $authority_start + $host_offset, $authority_length - $host_offset );
 
 		Algolia_Headless_Helper::log( "URL replaced: {$url} -> {$result}", 'info' );
 
