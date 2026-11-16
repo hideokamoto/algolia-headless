@@ -76,6 +76,32 @@ class ReplacerTest extends WP_UnitTestCase {
 		$this->assertSame( array( 'display_name' => 'admin' ), $replacer->replace_algolia_posts_url( array( 'display_name' => 'admin' ) ) );
 	}
 
+	public function test_records_passed_through_the_algolia_filters_get_the_headless_url() {
+		update_option( 'algolia_headless_domain', 'https://headless.example.com' );
+
+		$post_attributes = apply_filters( 'algolia_post_shared_attributes', array( 'permalink' => 'http://example.org/hello-world/' ), null );
+		$searchable      = apply_filters( 'algolia_searchable_post_shared_attributes', array( 'permalink' => 'http://example.org/hello-world/' ), null );
+		$term            = apply_filters( 'algolia_term_record', array( 'permalink' => 'http://example.org/category/news/' ), null );
+		$user            = apply_filters( 'algolia_user_record', array( 'posts_url' => 'http://example.org/author/admin/' ), null );
+
+		$this->assertSame( 'http://headless.example.com/hello-world/', $post_attributes['permalink'] );
+		$this->assertSame( 'http://headless.example.com/hello-world/', $searchable['permalink'] );
+		$this->assertSame( 'http://headless.example.com/category/news/', $term['permalink'] );
+		$this->assertSame( 'http://headless.example.com/author/admin/', $user['posts_url'] );
+	}
+
+	public function test_domain_change_is_picked_up_by_the_running_filters() {
+		update_option( 'algolia_headless_domain', 'https://first.example.com' );
+		$first = apply_filters( 'algolia_post_shared_attributes', array( 'permalink' => 'http://example.org/hello-world/' ), null );
+
+		// e.g. `wp algolia-headless set-domain` followed by a re-index in the same request.
+		update_option( 'algolia_headless_domain', 'https://second.example.com' );
+		$second = apply_filters( 'algolia_post_shared_attributes', array( 'permalink' => 'http://example.org/hello-world/' ), null );
+
+		$this->assertSame( 'http://first.example.com/hello-world/', $first['permalink'] );
+		$this->assertSame( 'http://second.example.com/hello-world/', $second['permalink'] );
+	}
+
 	public function test_helper_test_url_replacement_uses_the_saved_option() {
 		update_option( 'algolia_headless_domain', 'https://headless.example.com' );
 

@@ -104,13 +104,6 @@ class Algolia_Headless_Helper {
 class Algolia_Headless_Replacer {
 
 	/**
-	 * Cached headless domain
-	 *
-	 * @var string|false
-	 */
-	private $headless_domain = null;
-
-	/**
 	 * Constructor
 	 */
 	public function __construct() {
@@ -121,17 +114,17 @@ class Algolia_Headless_Replacer {
 	}
 
 	/**
-	 * Get headless domain from options (cached)
+	 * Get headless domain from options
 	 *
 	 * Supports environment variable override via ALGOLIA_HEADLESS_DOMAIN constant.
+	 * Not cached per instance: get_option() is already served from the object cache,
+	 * and a domain changed during the request (e.g. by WP-CLI before a re-index)
+	 * must be used by the filters right away.
 	 *
 	 * @return string|false
 	 */
 	private function get_headless_domain() {
-		if ( null === $this->headless_domain ) {
-			$this->headless_domain = Algolia_Headless_Helper::get_headless_domain();
-		}
-		return $this->headless_domain;
+		return Algolia_Headless_Helper::get_headless_domain();
 	}
 
 	/**
