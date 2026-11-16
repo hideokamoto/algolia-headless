@@ -8,6 +8,8 @@
  * Text Domain:     search-with-algolia-headless-extention
  * Domain Path:     /languages
  * Version:         0.2.0
+ * Requires at least: 5.5
+ * Requires PHP:    7.4
  *
  * @package         Algolia_Headless
  */
