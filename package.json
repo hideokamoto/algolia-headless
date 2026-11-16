@@ -1,14 +1,19 @@
 {
   "name": "wp-search-with-algolia-headless-extensions",
   "version": "0.2.0",
+  "private": true,
   "author": "hideokamoto",
+  "license": "GPL-2.0-or-later",
   "scripts": {
     "readme": "node scripts/readme-to-markdown.js",
-    "i18n:make-pot": "wp i18n make-pot . languages/search-with-algolia-headless-extention.pot --domain=search-with-algolia-headless-extention --slug=search-with-algolia-headless-extention --exclude=node_modules,vendor,.git",
+    "i18n:make-pot": "wp i18n make-pot . languages/search-with-algolia-headless-extention.pot --domain=search-with-algolia-headless-extention --slug=search-with-algolia-headless-extention --exclude=node_modules,vendor,.git,tests",
     "i18n": "npm run i18n:make-pot",
-    "build": "npm run readme && npm run i18n"
+    "build": "npm run readme && npm run i18n",
+    "wp-env": "wp-env",
+    "test:setup": "wp-env start && wp-env run tests-cli --env-cwd=wp-content/plugins/algolia-headless composer install --no-interaction",
+    "test": "wp-env run tests-cli --env-cwd=wp-content/plugins/algolia-headless composer test"
   },
   "devDependencies": {
-    "@wordpress/env": "^10.13.0"
+    "@wordpress/env": "^12.1.0"
   }
 }

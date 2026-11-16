@@ -1,0 +1,127 @@
+version: 2.1
+
+# PHPUnit on wp-env (pipeline "ci" in hideokamoto/circleci-infra algolia_headless.tf runs this on every push).
+# Same pattern as hideokamoto/wp-kyoto-my-functions: wp-env starts a real WordPress (tests-cli container)
+# and composer / PHPUnit run inside it, so PHP is not installed on the host.
+
+jobs:
+  phpunit:
+    machine:
+      image: ubuntu-2404:current
+    resource_class: medium.gen2
+    # wp-env mounts the plugin under the name of the checked-out directory.
+    # The npm scripts expect wp-content/plugins/algolia-headless.
+    working_directory: ~/algolia-headless
+    parameters:
+      php_version:
+        type: string
+      wp_version:
+        type: string
+    environment:
+      WP_ENV_START_TIMEOUT: "120000"
+    steps:
+      - checkout
+      - run:
+          name: Install Node.js 22 (nvm)
+          command: |
+            set -euo pipefail
+            export NVM_DIR="$HOME/.nvm"
+            if [ ! -s "$NVM_DIR/nvm.sh" ]; then
+              curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+            fi
+            \. "$NVM_DIR/nvm.sh"
+            nvm install 22
+            nvm alias default 22
+            nvm use 22
+            echo 'export NVM_DIR="$HOME/.nvm"' >> "$BASH_ENV"
+            echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> "$BASH_ENV"
+            echo 'nvm use 22 >/dev/null' >> "$BASH_ENV"
+            node -v
+            npm -v
+      - restore_cache:
+          keys:
+            - v1-npm-deps-{{ checksum "package-lock.json" }}
+            - v1-npm-deps-
+      - run:
+          name: Install Node dependencies
+          command: npm ci
+      - save_cache:
+          key: v1-npm-deps-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
+      - run:
+          name: Configure wp-env override (WordPress / PHP)
+          command: |
+            set -euo pipefail
+            WP_VERSION="<< parameters.wp_version >>"
+            if [ "$WP_VERSION" = "latest" ]; then
+              WP_CORE_VALUE="null"
+            else
+              WP_CORE_VALUE="\"WordPress/WordPress#${WP_VERSION}\""
+            fi
+            cat > .wp-env.override.json \<< EOF
+            {
+              "core": ${WP_CORE_VALUE},
+              "phpVersion": "<< parameters.php_version >>"
+            }
+            EOF
+            cat .wp-env.override.json
+      - run:
+          name: Start wp-env
+          command: npm run wp-env start
+      - run:
+          name: Install Composer dependencies inside wp-env
+          command: |
+            set -euo pipefail
+            npx wp-env run tests-cli --env-cwd=wp-content/plugins/algolia-headless \
+              composer install --no-interaction --no-progress
+      - run:
+          name: Show PHP and WordPress versions used by the tests
+          command: |
+            set -euo pipefail
+            npx wp-env run tests-cli php -v
+            npx wp-env run tests-cli wp core version
+      - run:
+          name: Run PHPUnit (WP Search with Algolia absent)
+          command: |
+            set -euo pipefail
+            mkdir -p test-results/phpunit
+            npx wp-env run tests-cli --env-cwd=wp-content/plugins/algolia-headless \
+              vendor/bin/phpunit --log-junit test-results/phpunit/plugin.xml
+      - run:
+          name: Run PHPUnit (WP Search with Algolia active, domain from constant)
+          command: |
+            set -euo pipefail
+            npx wp-env run tests-cli --env-cwd=wp-content/plugins/algolia-headless \
+              vendor/bin/phpunit --bootstrap tests/bootstrap-with-algolia.php --testsuite with-algolia \
+              --log-junit test-results/phpunit/with-algolia.xml
+      - run:
+          name: WP-CLI smoke test (wp algolia-headless ...)
+          command: |
+            set -euo pipefail
+            npx wp-env run cli wp plugin is-active algolia-headless
+            npx wp-env run cli wp algolia-headless set-domain https://headless.example.com
+            OUT="$(npx wp-env run cli wp algolia-headless test http://localhost:8888/hello-world/)"
+            echo "$OUT"
+            echo "$OUT" | grep -q 'http://headless.example.com/hello-world/'
+            npx wp-env run cli wp algolia-headless status
+            npx wp-env run cli wp algolia-headless clear-logs
+      - store_test_results:
+          path: test-results
+      - run:
+          name: Stop wp-env
+          command: npm run wp-env stop
+          when: always
+
+workflows:
+  # Oldest PHP the plugin declares (Requires PHP) and the newest WordPress / PHP.
+  test:
+    jobs:
+      - phpunit:
+          name: phpunit-php7.4-wp5.9
+          php_version: "7.4"
+          wp_version: "5.9"
+      - phpunit:
+          name: phpunit-php8.4-wp-latest
+          php_version: "8.4"
+          wp_version: latest

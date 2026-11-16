@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.6/phpunit.xsd"
+    bootstrap="tests/bootstrap.php"
+    colors="true"
+    beStrictAboutOutputDuringTests="true"
+    failOnRisky="true"
+    failOnWarning="true"
+    defaultTestSuite="plugin"
+>
+    <testsuites>
+        <!-- WP Search with Algolia is NOT loaded and ALGOLIA_HEADLESS_DOMAIN is not defined. -->
+        <testsuite name="plugin">
+            <directory suffix="Test.php">tests/plugin</directory>
+        </testsuite>
+        <!--
+            Run with "composer test" (second command; see composer.json).
+            A stand-in for WP Search with Algolia is loaded and ALGOLIA_HEADLESS_DOMAIN is defined,
+            which cannot be undone inside one PHP process, so it is a separate run.
+        -->
+        <testsuite name="with-algolia">
+            <directory suffix="Test.php">tests/with-algolia</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

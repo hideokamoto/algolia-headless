@@ -4,6 +4,10 @@ phpunit.xml
 Thumbs.db
 wp-cli.local.yml
 node_modules/
+vendor/
+composer.lock
+test-results/
+.wp-env.override.json
 *.sql
 *.tar.gz
 *.zip
