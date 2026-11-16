@@ -1,0 +1,19 @@
+{
+  "name": "hideokamoto/algolia-headless",
+  "description": "Search with Algolia Headless extension (WordPress plugin). Composer is only used for the PHPUnit test tools.",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0-or-later",
+  "require-dev": {
+    "phpunit/phpunit": "^9.6",
+    "yoast/phpunit-polyfills": "^2.0"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "scripts": {
+    "test": [
+      "phpunit",
+      "phpunit --bootstrap tests/bootstrap-with-algolia.php --testsuite with-algolia"
+    ]
+  }
+}

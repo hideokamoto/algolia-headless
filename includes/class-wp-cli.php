@@ -93,6 +93,7 @@ class Algolia_Headless_CLI {
 	 *
 	 *     wp algolia-headless set-domain https://example.com
 	 *
+	 * @subcommand set-domain
 	 * @when after_wp_load
 	 */
 	public function set_domain( $args ) {
@@ -195,8 +196,11 @@ class Algolia_Headless_CLI {
 	 *     wp algolia-headless logs --level=error
 	 *
 	 * @when after_wp_load
+	 *
+	 * @param array $args       Positional arguments (unused).
+	 * @param array $assoc_args Associative arguments (--lines, --level).
 	 */
-	public function logs( $assoc_args ) {
+	public function logs( $args, $assoc_args ) {
 		if ( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) {
 			WP_CLI::warning( 'WP_DEBUG is not enabled. Debug logging is disabled.' );
 			return;
@@ -257,6 +261,7 @@ class Algolia_Headless_CLI {
 	 *
 	 *     wp algolia-headless clear-logs
 	 *
+	 * @subcommand clear-logs
 	 * @when after_wp_load
 	 */
 	public function clear_logs() {

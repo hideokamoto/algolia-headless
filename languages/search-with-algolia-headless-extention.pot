@@ -1,0 +1,158 @@
+# Copyright (C) 2026 Hidetaka Okamoto
+# This file is distributed under the same license as the Search with Algolia Headless extension plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Search with Algolia Headless extension 0.2.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/search-with-algolia-headless-extention\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-16T13:32:35+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: search-with-algolia-headless-extention\n"
+
+#. Plugin Name of the plugin
+#: algolia-headless.php
+msgid "Search with Algolia Headless extension"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: algolia-headless.php
+msgid "https://wp-kyoto.net"
+msgstr ""
+
+#. Description of the plugin
+#: algolia-headless.php
+msgid "Simply extension for WP Search with Algolia. Replace the indices domain from the WordPress to custom domain."
+msgstr ""
+
+#. Author of the plugin
+#: algolia-headless.php
+msgid "Hidetaka Okamoto"
+msgstr ""
+
+#. Author URI of the plugin
+#: algolia-headless.php
+msgid "https://wp-kyoto.net/en"
+msgstr ""
+
+#: algolia-headless.php:271
+msgid "Enter a domain to see preview"
+msgstr ""
+
+#: algolia-headless.php:281
+msgid "Invalid URL format"
+msgstr ""
+
+#: algolia-headless.php:291
+msgid "URL Preview:"
+msgstr ""
+
+#: algolia-headless.php:292
+msgid "Before:"
+msgstr ""
+
+#: algolia-headless.php:293
+msgid "After:"
+msgstr ""
+
+#: algolia-headless.php:344
+msgid "Algolia Headless extension"
+msgstr ""
+
+#: algolia-headless.php:350
+msgid "Public site domain"
+msgstr ""
+
+#: algolia-headless.php:361
+msgid "You can replace the post domain from the WordPress to your public site."
+msgstr ""
+
+#: algolia-headless.php:379
+msgid "Enter the full URL of your headless site (e.g., https://example.com)"
+msgstr ""
+
+#: algolia-headless.php:475
+msgid "Algolia Headless extension requires the <strong>WP Search with Algolia</strong> plugin to be installed and activated."
+msgstr ""
+
+#. translators: %s: Settings page URL
+#: algolia-headless.php:492
+#, php-format
+msgid "Algolia Headless domain is not configured. Please <a href=\"%s\">configure it in Settings &raquo; Reading</a>."
+msgstr ""
+
+#. translators: %s: Invalid domain URL
+#: algolia-headless.php:508
+#, php-format
+msgid "Invalid headless domain format: <code>%s</code>. Please use a full URL (e.g., https://example.com)."
+msgstr ""
+
+#: algolia-headless.php:517
+msgid "Your headless domain uses HTTP instead of HTTPS. Consider using HTTPS for better security."
+msgstr ""
+
+#: algolia-headless.php:577
+msgid "Algolia Headless Configuration"
+msgstr ""
+
+#: algolia-headless.php:591
+msgid "Algolia Headless is configured correctly"
+msgstr ""
+
+#: algolia-headless.php:594
+msgid "Performance"
+msgstr ""
+
+#: algolia-headless.php:605
+msgid "WP Search with Algolia plugin is not active"
+msgstr ""
+
+#: algolia-headless.php:608
+msgid "Algolia Headless extension requires the WP Search with Algolia plugin to function."
+msgstr ""
+
+#: algolia-headless.php:617
+msgid "Headless domain is not configured"
+msgstr ""
+
+#: algolia-headless.php:620
+msgid "Please configure the headless site domain in Settings &raquo; Reading."
+msgstr ""
+
+#: algolia-headless.php:625
+msgid "Configure Domain"
+msgstr ""
+
+#: algolia-headless.php:634
+msgid "Invalid headless domain format"
+msgstr ""
+
+#. translators: %s: Invalid domain
+#: algolia-headless.php:639
+#, php-format
+msgid "The configured domain <code>%s</code> is not a valid URL."
+msgstr ""
+
+#: algolia-headless.php:649
+msgid "Headless domain uses HTTP instead of HTTPS"
+msgstr ""
+
+#: algolia-headless.php:652
+msgid "For better security, consider using HTTPS for your headless domain."
+msgstr ""
+
+#. translators: %s: Domain configured via constant
+#: algolia-headless.php:662
+#, php-format
+msgid "Domain is configured via ALGOLIA_HEADLESS_DOMAIN constant: <code>%s</code>"
+msgstr ""
+
+#. translators: %s: Configured domain
+#: algolia-headless.php:671
+#, php-format
+msgid "Headless domain: <code>%s</code>"
+msgstr ""

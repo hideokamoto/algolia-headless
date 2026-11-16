@@ -39,3 +39,7 @@ node_modules
 *.sql
 *.tar.gz
 *.zip
+.wp-env.json
+.wp-env.override.json
+.github
+test-results
