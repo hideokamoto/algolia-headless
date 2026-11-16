@@ -15,15 +15,25 @@ jobs:
     # README.md (`npm run readme`) is excluded by .distignore, and the .pot file
     # (`npm run i18n`, needs WP-CLI) is committed, so both are run by hand before tagging.
     - name: WordPress Plugin Deploy
-      id: deploy
       uses: 10up/action-wordpress-plugin-deploy@stable
-      with:
-        generate-zip: true
       env:
         SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
         SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
         SLUG: search-with-algolia-headless-extention
+    # Build the release zip from this tag's own files, with the same .distignore rules the
+    # deploy uses. The action's generate-zip zips SVN trunk instead, and when the version is
+    # already in SVN (a re-run of an older release) trunk can hold a newer version.
+    - name: Build release zip from the tag
+      env:
+        SLUG: search-with-algolia-headless-extention
+      run: |
+        mkdir -p "$RUNNER_TEMP/zip/$SLUG"
+        rsync -rc --exclude-from=.distignore ./ "$RUNNER_TEMP/zip/$SLUG/" --delete --delete-excluded
+        (cd "$RUNNER_TEMP/zip" && zip -qr "$GITHUB_WORKSPACE/$SLUG.zip" "$SLUG")
+    # The tag name is passed through the environment, never expanded into the script.
     - name: Upload release asset
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: gh release upload "${{ github.event.release.tag_name }}" "${{ steps.deploy.outputs.zip-path }}" --clobber
+        RELEASE_TAG: ${{ github.event.release.tag_name }}
+        SLUG: search-with-algolia-headless-extention
+      run: gh release upload "$RELEASE_TAG" "$GITHUB_WORKSPACE/$SLUG.zip" --clobber
