@@ -147,8 +147,14 @@ class Algolia_Headless_Replacer {
 			return $url;
 		}
 
-		$path            = isset( $target['path'] ) ? $target['path'] : '';
-		$replaced_domain = $target['host'] . $path;
+		$replaced_domain = $target['host'];
+		if ( isset( $target['port'] ) && $target['port'] ) {
+			$replaced_domain .= ':' . $target['port'];
+		}
+		// A trailing slash ("https://example.com/") would otherwise produce "//" before the path.
+		if ( isset( $target['path'] ) ) {
+			$replaced_domain .= untrailingslashit( $target['path'] );
+		}
 
 		if ( empty( $replaced_domain ) ) {
 			Algolia_Headless_Helper::log( 'Replaced domain is empty after parsing', 'error' );
@@ -167,8 +173,15 @@ class Algolia_Headless_Replacer {
 			$replace_target .= ':' . $parsed_url['port'];
 		}
 
-		// Use str_replace instead of preg_replace to avoid ReDoS vulnerability.
-		$result = str_replace( $replace_target, $replaced_domain, $url );
+		// Replace only the authority part ("//host[:port]"), not other occurrences of the
+		// host in the path or query string. Plain string functions avoid ReDoS.
+		$authority = '//' . $replace_target;
+		$position  = strpos( $url, $authority );
+		if ( false === $position ) {
+			Algolia_Headless_Helper::log( "Host not found in URL: {$url}", 'error' );
+			return $url;
+		}
+		$result = substr_replace( $url, '//' . $replaced_domain, $position, strlen( $authority ) );
 
 		Algolia_Headless_Helper::log( "URL replaced: {$url} -> {$result}", 'info' );
 

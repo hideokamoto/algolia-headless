@@ -102,6 +102,28 @@ class ReplacerTest extends WP_UnitTestCase {
 		$this->assertSame( 'http://second.example.com/hello-world/', $second['permalink'] );
 	}
 
+	public function test_trailing_slash_of_the_headless_domain_does_not_double_the_slash() {
+		// The settings field and esc_url_raw() keep a trailing slash as typed.
+		update_option( 'algolia_headless_domain', 'https://headless.example.com/' );
+
+		$this->assertSame( 'http://headless.example.com/hello-world/', $this->replace( 'http://example.org/hello-world/' ) );
+	}
+
+	public function test_port_of_the_headless_domain_is_kept() {
+		update_option( 'algolia_headless_domain', 'http://localhost:3000' );
+
+		$this->assertSame( 'http://localhost:3000/hello-world/', $this->replace( 'http://example.org/hello-world/' ) );
+	}
+
+	public function test_only_the_host_part_is_replaced() {
+		update_option( 'algolia_headless_domain', 'https://headless.example.com' );
+
+		$this->assertSame(
+			'http://headless.example.com/?s=example.org&ref=http%3A%2F%2Fexample.org',
+			$this->replace( 'http://example.org/?s=example.org&ref=http%3A%2F%2Fexample.org' )
+		);
+	}
+
 	public function test_helper_test_url_replacement_uses_the_saved_option() {
 		update_option( 'algolia_headless_domain', 'https://headless.example.com' );
 
