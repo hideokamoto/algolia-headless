@@ -105,6 +105,10 @@ jobs:
             echo "$OUT"
             echo "$OUT" | grep -q 'http://headless.example.com/hello-world/'
             npx wp-env run cli wp algolia-headless status
+            # The development environment runs with WP_DEBUG, so the replacements above were logged.
+            LOGS="$(npx wp-env run cli wp algolia-headless logs --lines=1 --level=info)"
+            echo "$LOGS"
+            echo "$LOGS" | grep -q 'Total logs: 1'
             npx wp-env run cli wp algolia-headless clear-logs
       - store_test_results:
           path: test-results

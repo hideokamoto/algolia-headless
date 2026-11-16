@@ -77,6 +77,27 @@ class CliCommandTest extends WP_UnitTestCase {
 		$this->assertContains( 'Headless domain: Not configured', $warnings );
 	}
 
+	public function test_logs_honours_lines_and_level_options() {
+		$this->assertTrue( WP_DEBUG, 'wp-env runs the tests with WP_DEBUG enabled' );
+		set_transient(
+			'algolia_headless_debug_logs',
+			array(
+				array( 'timestamp' => 't1', 'level' => 'error', 'message' => 'first error' ),
+				array( 'timestamp' => 't2', 'level' => 'info', 'message' => 'some info' ),
+				array( 'timestamp' => 't3', 'level' => 'error', 'message' => 'second error' ),
+			)
+		);
+
+		// Runs as: wp algolia-headless logs --lines=1 --level=error
+		$this->run_command( 'logs', array(), array( 'lines' => '1', 'level' => 'error' ) );
+
+		$lines = implode( "\n", Algolia_Headless_Fake_WP_CLI::messages( 'line' ) );
+		$this->assertStringContainsString( 'second error', $lines );
+		$this->assertStringNotContainsString( 'first error', $lines );
+		$this->assertStringNotContainsString( 'some info', $lines );
+		$this->assertStringContainsString( 'Total logs: 1', $lines );
+	}
+
 	public function test_clear_logs_deletes_the_stored_logs() {
 		set_transient( 'algolia_headless_debug_logs', array( array( 'level' => 'info', 'message' => 'x', 'timestamp' => 'now' ) ) );
 
