@@ -2,7 +2,7 @@
 Donate link: https://www.amazon.jp/hz/wishlist/ls/1UYH9PSDMB3FZ?ref_=wl_share
 Tags: algolia,headless,search,wp-cli
 Requires at least: 5.5
-Tested up to: 7.1
+Tested up to: 7.2
 Requires PHP: 7.4
 Stable tag: 0.2.0
 License: GPLv2 or later
@@ -102,7 +102,7 @@ Not released yet.
 * Fix: `wp algolia-headless logs` now honours --lines and --level
 * Fix: `wp algolia-headless set-domain` and `clear-logs` now exist under the documented names (they were registered as `set_domain` / `clear_logs`)
 * Change: The text domain is now `search-with-algolia-headless-extention` (the WordPress.org slug) so translations from translate.wordpress.org can load
-* Change: Requires PHP 7.4 (the minimum of current WordPress). Tested up to WordPress 7.1
+* Change: Requires PHP 7.4 (the minimum of current WordPress). Tested up to WordPress 7.2
 * Dev: PHPUnit tests on wp-env, run on CircleCI
 
 ### 0.1.0
