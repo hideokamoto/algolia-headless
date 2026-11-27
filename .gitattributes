@@ -1,0 +1,26 @@
+# Files left out of the release zip and of WordPress.org trunk/ and tags/.
+# The release pipeline (hideokamoto/circleci-configurations
+# workflows/release/wordpress-plugin-wporg-release.yaml, pipeline "release" in
+# hideokamoto/circleci-infra algolia_headless.tf) builds the zip with
+# `git archive`, which skips paths marked export-ignore.
+# Based on .distignore, plus scripts/ (README.md generator, not used at runtime).
+/.circleci export-ignore
+/.distignore export-ignore
+/.editorconfig export-ignore
+/.gitattributes export-ignore
+/.github export-ignore
+/.gitignore export-ignore
+/.phpcs.xml.dist export-ignore
+/.wp-env.json export-ignore
+/.wp-env.override.json export-ignore
+/README.md export-ignore
+/composer.json export-ignore
+/composer.lock export-ignore
+/package.json export-ignore
+/package-lock.json export-ignore
+/phpunit.xml.dist export-ignore
+/scripts export-ignore
+/tests export-ignore
+/test-results export-ignore
+/vendor export-ignore
+/node_modules export-ignore
