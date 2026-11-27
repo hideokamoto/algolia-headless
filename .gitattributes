@@ -1,0 +1,53 @@
+# Files left out of the release zip and of WordPress.org trunk/ and tags/.
+# The release pipeline (hideokamoto/circleci-configurations
+# workflows/release/wordpress-plugin-wporg-release.yaml, pipeline "release" in
+# hideokamoto/circleci-infra algolia_headless.tf) builds the zip with
+# `git archive`, which skips paths marked export-ignore.
+# Same patterns as .distignore, unanchored so they match at any depth like its rsync
+# --exclude-from did. Root-only: /.circleci (whole dir) and /scripts (README.md generator).
+/.circleci export-ignore
+.distignore export-ignore
+.editorconfig export-ignore
+.gitattributes export-ignore
+.github export-ignore
+.gitignore export-ignore
+.phpcs.xml.dist export-ignore
+.wp-env.json export-ignore
+.wp-env.override.json export-ignore
+README.md export-ignore
+composer.json export-ignore
+composer.lock export-ignore
+package.json export-ignore
+package-lock.json export-ignore
+phpunit.xml.dist export-ignore
+/scripts export-ignore
+tests export-ignore
+test-results export-ignore
+vendor export-ignore
+node_modules export-ignore
+# Rest of .distignore. No tracked file matches these today.
+.babelrc export-ignore
+.deployignore export-ignore
+.eslintignore export-ignore
+.eslintrc export-ignore
+.gitlab-ci.yml export-ignore
+.travis.yml export-ignore
+behat.yml export-ignore
+bitbucket-pipelines.yml export-ignore
+bin export-ignore
+dependencies.yml export-ignore
+Gruntfile.js export-ignore
+multisite.xml export-ignore
+multisite.xml.dist export-ignore
+.phpcs.xml export-ignore
+phpcs.xml export-ignore
+phpcs.xml.dist export-ignore
+phpunit.xml export-ignore
+webpack.config.js export-ignore
+wp-cli.local.yml export-ignore
+yarn.lock export-ignore
+.DS_Store export-ignore
+Thumbs.db export-ignore
+*.sql export-ignore
+*.tar.gz export-ignore
+*.zip export-ignore
