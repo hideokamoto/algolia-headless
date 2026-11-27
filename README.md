@@ -84,8 +84,6 @@ Logs are stored in WordPress transients (database) when WP_DEBUG is enabled. The
 ## Changelog
 
 ### 0.2.0
-Not released yet.
-
 * Add: Real-time URL preview in settings page
 * Add: Environment variable support (ALGOLIA_HEADLESS_DOMAIN constant)
 * Add: Debug logging system (stored securely in database)
